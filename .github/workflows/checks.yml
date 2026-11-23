@@ -20,8 +20,11 @@ jobs:
       - name: Offline unit tests
         run: python -m unittest discover -s tests -v
       - name: Compile Python source
-        run: python -m compileall -q src examples/python
+        run: python -m compileall -q src tools examples/python examples/offline-poi-app
       - name: Validate all Agent Skills
         run: |
           python -m osm_guard validate-skills skills
           python tools/validate_skills.py
+
+      - name: Run deterministic offline guardrail scenarios
+        run: python tools/evaluate_offline.py

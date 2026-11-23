@@ -3,13 +3,13 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "osm-agent-skills-guard"
-version = "0.1.0"
-description = "Offline-first helpers to develop respectful OpenStreetMap applications"
+name = "osm-agent-guardrails"
+version = "0.2.0rc1"
+description = "Agent skills and offline checks for responsible OpenStreetMap/Overpass applications"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
-authors = [{name = "OSM Agent Skills contributors"}]
+authors = [{name = "OSM Agent Guardrails contributors"}]
 dependencies = []
 classifiers = ["Programming Language :: Python :: 3"]
 

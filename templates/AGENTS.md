@@ -11,4 +11,4 @@ When implementing any feature involving OpenStreetMap, Overpass API, tiles, POIs
 7. Identify applicable ODbL obligations for derived datasets and attribution requirements for maps.
 8. Explain the chosen architecture and expected burden on public infrastructure before proposing deployment.
 
-For detailed instructions, install the `osm-agent-skills` collection or consult its `skills/` directory. Official documentation and service policies override these general rules.
+For detailed instructions, install the `OSM Agent Guardrails` collection or consult its `skills/` directory. Official documentation and service policies override these general rules.

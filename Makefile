@@ -4,7 +4,8 @@ test:
 	PYTHONPATH=src python -m unittest discover -s tests -v
 	PYTHONPATH=src python -m osm_guard validate-skills skills
 	python tools/validate_skills.py
-	python -m compileall -q src tools examples/python
+	python -m compileall -q src tools examples/python examples/offline-poi-app
+	PYTHONPATH=src python tools/evaluate_offline.py
 
 validate:
 	PYTHONPATH=src python -m osm_guard validate-skills skills

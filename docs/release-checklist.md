@@ -2,7 +2,7 @@
 
 - [ ] Ask relevant OSM/Overpass maintainers for input; do not claim endorsement until confirmed.
 - [ ] Confirm repository name does not imply OSMF/OSM Spain endorsement.
-- [x] Run offline tests on the available local Python 3.13 runtime (32+ tests) and verify package build.
+- [x] Run offline tests on the available local Python 3.13 runtime (41 tests) and verify package build.
 - [ ] Confirm GitHub CI success across Python 3.11, 3.12 and 3.13 before declaring stable.
 - [ ] Manually smoke-test with a small locally downloaded PBF file (outside CI, recording provenance and attribution).
 - [ ] Verify installs on current Cursor, Claude Code and Codex versions; report exact versions and screenshots or logs.

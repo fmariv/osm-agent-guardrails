@@ -8,7 +8,11 @@
 
 `src/osm_guard` -> optional offline-friendly, Python 3.11+ decision, static lint, and reference HTTP client. It is **not** mandatory to install it to use the skills.
 
-`tests/` -> mock transport tests, synthetic fixtures; no public OSM network calls in CI.
+`examples/offline-poi-app/` -> runnable localhost-only Python HTTP API with ETag caching and schematic browser POI view.
+
+`benchmarks/` and `tools/evaluate_offline.py` -> deterministic source-selection/lint scenario suite; not empirical agent evaluation.
+
+`tests/` -> mock transport tests, synthetic fixtures, localhost-only integration; no public OSM network calls in CI.
 
 ## Threats addressed
 

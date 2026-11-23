@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OSM Agent Guardrails — Offline POI Example</title>
+  <style>
+    :root { color-scheme: light; font: 16px system-ui, sans-serif; }
+    body { max-width: 960px; margin: 2rem auto; padding: 0 1.2rem; color: #1e293b; }
+    header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: .6rem; }
+    h1 { margin: 0; font-size: 1.45rem; }
+    small { color: #64748b; }
+    .map { width: 100%; background: #f1f5f9; border-radius: 12px; border: 1px solid #cbd5e1; }
+    .point { fill: #0369a1; stroke: white; stroke-width: 3; cursor: pointer; }
+    .point:focus { outline: none; stroke: #f97316; }
+    .label { font-size: 11px; fill: #334155; }
+    .controls { margin: 1rem 0; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    input { font-size: 1rem; padding: .55rem; border: 1px solid #94a3b8; border-radius: 7px; }
+    ul { padding-left: 1.3rem; }
+    .muted { color: #475569; }
+  </style>
+</head>
+<body>
+  <header><h1>Offline POI viewer</h1><small>No Overpass · No remote basemap · Synthetic data</small></header>
+  <p>This educational demo reads a <strong>local OSM XML fixture</strong> server-side, exposes one cached JSON endpoint, and filters POIs in the browser. It intentionally uses a schematic SVG instead of calling a third-party tile server.</p>
+  <div class="controls">
+    <label for="filter">Search local POIs:</label>
+    <input id="filter" type="search" placeholder="Amenity or name" />
+    <span id="count" aria-live="polite">Loading…</span>
+  </div>
+  <svg id="map" class="map" role="img" aria-label="Synthetic sample POIs, not a geographic basemap" viewBox="0 0 720 340">
+    <path d="M20 50 L700 50 M20 170 L700 170 M20 290 L700 290 M170 15 L170 325 M360 15 L360 325 M550 15 L550 325" stroke="#cbd5e1" stroke-width="1" />
+  </svg>
+  <p class="muted">Coordinates are projected linearly for a tiny synthetic extent. This is not a production geographic projection or map renderer.</p>
+  <ul id="results"></ul>
+  <script>
+    'use strict';
+    let allFeatures = [];
+    const svg = document.getElementById('map');
+    const results = document.getElementById('results');
+    const count = document.getElementById('count');
+    const search = document.getElementById('filter');
+    const SVG_NS = 'http://www.w3.org/2000/svg';
+    const node = (name, props, label) => {
+      const el = document.createElementNS(SVG_NS, name);
+      Object.entries(props).forEach(([k, v]) => el.setAttribute(k, String(v)));
+      if (label) el.textContent = label;
+      return el;
+    };
+    function render() {
+      const keyword = search.value.trim().toLowerCase();
+      const visible = allFeatures.filter(f =>
+        Object.values(f.properties).some(v => String(v).toLowerCase().includes(keyword)));
+      svg.querySelectorAll('.poi').forEach(n => n.remove());
+      results.replaceChildren();
+      count.textContent = `${visible.length} of ${allFeatures.length} local POIs`;
+      const coords = allFeatures.map(f => f.geometry.coordinates);
+      if (!coords.length) return;
+      const west = Math.min(...coords.map(p => p[0])) - 0.00015;
+      const east = Math.max(...coords.map(p => p[0])) + 0.00015;
+      const south = Math.min(...coords.map(p => p[1])) - 0.00015;
+      const north = Math.max(...coords.map(p => p[1])) + 0.00015;
+      for (const feature of visible) {
+        const [lon, lat] = feature.geometry.coordinates;
+        const x = 35 + 650 * (lon - west) / (east - west);
+        const y = 305 - 270 * (lat - south) / (north - south);
+        const group = node('g', { class: 'poi' });
+        const title = feature.properties.name || feature.properties.amenity;
+        const circle = node('circle', { cx: x, cy: y, r: 9, class: 'point', tabindex: '0' });
+        circle.appendChild(node('title', {}, title));
+        group.append(circle, node('text', { x: x + 14, y: y + 4, class: 'label' }, title));
+        svg.appendChild(group);
+        const item = document.createElement('li');
+        item.textContent = `${title} (${feature.properties.amenity})`;
+        results.appendChild(item);
+      }
+    }
+    search.addEventListener('input', render); // No HTTP requests on search/map events.
+    fetch('/api/pois', { headers: { Accept: 'application/geo+json' } })
+      .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then(data => { allFeatures = data.features; render(); })
+      .catch(() => { count.textContent = 'Could not load local POIs'; });
+  </script>
+</body>
+</html>

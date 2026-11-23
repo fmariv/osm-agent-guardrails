@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "about": "Synthetic deterministic guardrail checks. NOT an experiment comparing AI agents with/without skills and NOT measured public API load reduction.",
+  "source_cases": [
+    {"id": "one-off-small-amenities", "prompt": "Explore a handful of benches near a city block once", "workload": {"workflow": "one-off", "area_km2": 0.8, "daily_runs": 1, "users": 1}, "expected": "bounded-overpass"},
+    {"id": "weekly-region-buildings", "prompt": "Refresh buildings for a 1200 km² region once a week", "workload": {"workflow": "scheduled", "area_km2": 1200, "daily_runs": 1, "users": 1}, "expected": "local-pbf-extract"},
+    {"id": "nightly-roads", "prompt": "Analyze a region's road graph every night", "workload": {"workflow": "scheduled", "area_km2": 80, "daily_runs": 1, "users": 1}, "expected": "local-pbf-extract"},
+    {"id": "public-poi-explorer", "prompt": "Serve multiple interactive visitors querying POIs", "workload": {"workflow": "interactive", "area_km2": 50, "daily_runs": 100, "users": 100}, "expected": "local-database-or-managed-api"},
+    {"id": "large-ad-hoc", "prompt": "Extract OSM features for a large region once", "workload": {"workflow": "one-off", "area_km2": 10000, "daily_runs": 1, "users": 1}, "expected": "local-pbf-extract"},
+    {"id": "basemap-only", "prompt": "Render a static basemap for a regional atlas", "workload": {"workflow": "one-off", "area_km2": 200, "daily_runs": 1, "users": 1, "needs_basemap": true}, "expected": "policy-compatible-map-tiles"},
+    {"id": "sla-enterprise", "prompt": "Provide OSM query service for a production SLA", "workload": {"workflow": "one-off", "area_km2": 2, "daily_runs": 1, "users": 1, "strict_sla": true}, "expected": "local-database-or-managed-api"},
+    {"id": "massive-batch", "prompt": "Build a region-wide searchable address dataset", "workload": {"workflow": "bulk", "area_km2": 500, "daily_runs": 1, "users": 1}, "expected": "local-pbf-extract"},
+    {"id": "few-user-dash", "prompt": "Let a few users inspect cached POIs", "workload": {"workflow": "interactive", "area_km2": 3, "daily_runs": 1, "users": 3}, "expected": "local-database-or-managed-api"},
+    {"id": "repeated-tiny", "prompt": "Poll a tiny local query dozens of times daily", "workload": {"workflow": "one-off", "area_km2": 0.2, "daily_runs": 40, "users": 1}, "expected": "local-pbf-extract"},
+    {"id": "single-low-traffic", "prompt": "Retrieve a few POIs for a one-off research check", "workload": {"workflow": "one-off", "area_km2": 0.5, "daily_runs": 1, "users": 1}, "expected": "bounded-overpass"},
+    {"id": "webmap", "prompt": "Display a basemap with custom thematic features", "workload": {"workflow": "interactive", "area_km2": 100, "users": 30, "needs_basemap": true}, "expected": "policy-compatible-map-tiles"}
+  ],
+  "lint_cases": [
+    {"id": "unsafe-hardcoded-overpass", "snippet": "url='https://overpass-api.de/api/interpreter'", "expected_rules": ["PUBLIC_OVERPASS_URL"]},
+    {"id": "unsafe-unbounded-ql", "snippet": "[out:json]; node;out;", "expected_rules": ["UNBOUNDED_QL_CANDIDATE"]},
+    {"id": "unsafe-map-event", "snippet": "map.on('moveend', () => overpass())", "expected_rules": ["MAP_EVENT_OVERPASS"]},
+    {"id": "unsafe-busy-loop", "snippet": "while True:\n  result = overpass_call()", "expected_rules": ["OVERPASS_TIGHT_LOOP"]},
+    {"id": "osmf-tile-host", "snippet": "const url='https://tile.openstreetmap.org/{z}/{x}/{y}.png';", "expected_rules": ["OSMF_TILE_HOST"]},
+    {"id": "safe-local-collection", "snippet": "const data = await fetch('/api/pois').then(r => r.json());", "expected_rules": []},
+    {"id": "safe-local-map-event", "snippet": "map.on('moveend', () => filterLocalResults());", "expected_rules": []}
+  ]
+}

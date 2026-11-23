@@ -1,4 +1,4 @@
-# Contributing to OSM Agent Skills
+# Contributing to OSM Agent Guardrails
 
 Please read our [Code of Conduct](CODE_OF_CONDUCT.md). Discussions must respect volunteer operators and project contributors.
 
@@ -12,7 +12,8 @@ Keep skills vendor-neutral and short. Add runnable, offline examples and tests f
 python -m pip install -e .
 python -m unittest discover -s tests -v
 python -m osm_guard validate-skills skills
-python -m compileall -q src examples/python
+python -m compileall -q src tools examples/python examples/offline-poi-app
+python tools/evaluate_offline.py
 ```
 
 PR checklist: specific user scenario, expected behavior, official citations, offline tests, explanation of limits, no claims of guaranteed server protection.
