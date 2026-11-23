@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "osm-agent-skills-guard"
+version = "0.1.0"
+description = "Offline-first helpers to develop respectful OpenStreetMap applications"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{name = "OSM Agent Skills contributors"}]
+dependencies = []
+classifiers = ["Programming Language :: Python :: 3"]
+
+[project.scripts]
+osm-guard = "osm_guard.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

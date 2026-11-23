@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version="0.6" generator="osm-agent-skills-synthetic-fixture">
+  <node id="101" lat="41.4001" lon="2.1502"><tag k="amenity" v="drinking_water" /><tag k="name" v="Sample Fountain" /></node>
+  <node id="102" lat="41.4003" lon="2.1504"><tag k="highway" v="crossing" /></node>
+  <node id="103" lat="41.4006" lon="2.1510"><tag k="amenity" v="bench" /></node>
+</osm>

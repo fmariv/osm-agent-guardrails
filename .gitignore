@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+.venv/
+*.db
+*.sqlite3
+*.pbf
+*.osm.pbf
+*.parquet
+.DS_Store
+node_modules/
+dist/
