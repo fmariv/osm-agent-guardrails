@@ -1,0 +1,40 @@
+name: Initialize private OSM Agent Skills
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  import:
+    if: github.repository == 'fmariv/osm-agents-skills'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unpack vetted private initial release
+        run: |
+          python - <<'PY'
+          import base64
+          import json
+          import lzma
+          from pathlib import Path, PurePosixPath
+
+          payload = Path(".bootstrap/payload.b64").read_text().strip()
+          entries = json.loads(lzma.decompress(base64.b64decode(payload)).decode("utf-8"))
+          assert len(entries) == 51, "Unexpected number of files"
+          for name, contents in entries.items():
+              normalized = PurePosixPath(name)
+              if normalized.is_absolute() or ".." in normalized.parts:
+                  raise ValueError("Unsafe path in import")
+              destination = Path(name)
+              destination.parent.mkdir(parents=True, exist_ok=True)
+              destination.write_text(contents, encoding="utf-8")
+          Path(".bootstrap/payload.b64").unlink()
+          Path(".github/workflows/bootstrap.yml").unlink()
+          PY
+      - name: Commit imported sources
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "feat: initialize private OSM Agent Skills working release"
+          git push origin HEAD:main
