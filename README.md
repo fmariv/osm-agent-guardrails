@@ -2,7 +2,9 @@
 
 **Better OpenStreetMap code. Less unnecessary load on community infrastructure.**
 
-> **Status:** community review candidate (v0.1.0); not yet a production-ready Overpass client. Independent project; not affiliated with or endorsed by the OpenStreetMap Foundation, OpenStreetMap España, or Overpass administrators.
+> **Independent community project:** OSM Agent Skills is an independent, community-oriented initiative. It is **not an official OpenStreetMap or Overpass project**, and is not affiliated with, sponsored by, or endorsed by the OpenStreetMap Foundation, OpenStreetMap España, or the Overpass API maintainers.
+>
+> **Status:** v0.1.0 community review candidate. The included reference client and guidance should be validated for each use case before production deployment.
 
 OSM Agent Skills is a vendor-neutral set of [Agent Skills](https://agentskills.io/specification), portable agent instructions, tested Python utilities, and examples for building responsible applications around OpenStreetMap and the Overpass API.
 
