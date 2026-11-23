@@ -2,7 +2,7 @@
 
 **Better OpenStreetMap code. Less unnecessary load on community infrastructure.**
 
-> **Status:** private working release, preparing for community review. Independent project; not affiliated with or endorsed by the OpenStreetMap Foundation, OpenStreetMap España, or Overpass administrators.
+> **Status:** community review candidate (v0.1.0); not yet a production-ready Overpass client. Independent project; not affiliated with or endorsed by the OpenStreetMap Foundation, OpenStreetMap España, or Overpass administrators.
 
 OSM Agent Skills is a vendor-neutral set of [Agent Skills](https://agentskills.io/specification), portable agent instructions, tested Python utilities, and examples for building responsible applications around OpenStreetMap and the Overpass API.
 
@@ -76,7 +76,7 @@ These controls only apply to applications that use them. They cannot block bots 
 
 ## GitHub repository
 
-This project is maintained privately at `fmariv/osm-agents-skills` during technical validation. Verify that GitHub displays **Private** before inviting reviewers. Do not make it public until the [release checklist](docs/release-checklist.md) is complete. The project must not imply OSMF endorsement.
+The project repository is [`fmariv/osm-agents-skills`](https://github.com/fmariv/osm-agents-skills). It is an independent, early community-review candidate; consult the [release checklist](docs/release-checklist.md) before making strong compatibility or performance claims. The project must not imply OSMF endorsement.
 
 ## Examples and docs
 

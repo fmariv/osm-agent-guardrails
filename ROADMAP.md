@@ -1,6 +1,6 @@
 # Roadmap
 
-## Private working release (current)
+## Initial working release
 
 - [x] Five scoped, vendor-neutral skills
 - [x] Copyable `AGENTS.md` and `CLAUDE.md`
@@ -19,7 +19,7 @@
 - [ ] Document supported agent version matrix and installation issues
 - [ ] CI checks beyond synthetic demos, without using public APIs
 
-## Public release
+## Community/public release
 
 - [ ] Create public/open-source announcement and governance
 - [ ] Open discussion with OSM communities and maintainers
